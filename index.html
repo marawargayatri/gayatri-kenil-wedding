@@ -135,7 +135,7 @@
       font-weight: 200;
       font-size: 0.65rem;
       letter-spacing: 0.5em;
-      color: var(--blush);
+      color: #F9D5D5;
       text-transform: uppercase;
       margin-bottom: 1.25rem;
       opacity: 0;
@@ -160,7 +160,7 @@
         rgba(26,16,16,0.25) 0%,
         rgba(26,16,16,0.05) 35%,
         rgba(26,16,16,0.55) 70%,
-        rgba(26,16,16,0.92) 100%
+        rgba(10,4,4,0.97) 100%
       );
       z-index: 1;
     }
@@ -186,6 +186,77 @@
       line-height: 2.5;
     }
 
+    /* ── CAROUSEL ── */
+    .carousel {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .carousel-slide.active {
+      opacity: 1;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .carousel-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-placeholder span {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(242,196,196,0.25);
+    }
+    .carousel-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,4,4,0.3) 0%,
+        rgba(10,4,4,0.05) 30%,
+        rgba(10,4,4,0.55) 68%,
+        rgba(6,2,2,0.97) 100%
+      );
+    }
+    /* Carousel indicator dots */
+    .carousel-dots {
+      position: absolute;
+      top: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      gap: 8px;
+    }
+    .cdot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      border: 1px solid rgba(242,196,196,0.6);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      padding: 0;
+    }
+    .cdot.active {
+      background: rgba(242,196,196,0.9);
+      transform: scale(1.4);
+    }
+
     /* Text overlay sits above the gradient */
     .hero-text-overlay {
       position: relative;
@@ -197,29 +268,30 @@
     .hero-tagline {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-weight: 300;
-      font-size: clamp(2rem, 6vw, 3.2rem);
-      color: var(--champagne);
-      line-height: 1.35;
+      font-weight: 400;
+      font-size: clamp(2.8rem, 8vw, 5rem);
+      color: #ffffff;
+      line-height: 1.2;
       opacity: 0;
       animation: fadeUp 1s 0.8s forwards;
       margin-bottom: 0.4rem;
+      text-shadow: 0 2px 30px rgba(0,0,0,0.7), 0 0 80px rgba(0,0,0,0.4);
     }
 
     .hero-tagline em {
-      color: var(--blush);
+      color: #F9D5D5;
       font-style: normal;
     }
 
     .hero-names-pill {
       display: inline-block;
-      border: 1px solid rgba(242,196,196,0.35);
+      border: 1px solid rgba(242,196,196,0.7);
       padding: 0.4rem 1.5rem;
       font-size: 0.6rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
-      color: rgba(242,196,196,0.7);
-      font-weight: 300;
+      color: rgba(242,196,196,1);
+      font-weight: 400;
       margin-top: 1rem;
       opacity: 0;
       animation: fadeUp 1s 1.5s forwards;
@@ -240,7 +312,7 @@
     .scroll-cue span {
       font-size: 0.6rem;
       letter-spacing: 0.4em;
-      color: var(--warm-gray);
+      color: rgba(255,255,255,0.5);
       text-transform: uppercase;
     }
     .scroll-line {
@@ -296,9 +368,9 @@
 
     .inv-copy {
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
+      font-weight: 400;
       font-size: clamp(1rem, 2.5vw, 1.2rem);
-      color: var(--charcoal);
+      color: #2C1F1F;
       line-height: 1.8;
       margin-bottom: 1.5rem;
     }
@@ -306,9 +378,9 @@
     .couple-names {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3.5rem, 10vw, 6rem);
-      font-weight: 300;
+      font-weight: 400;
       line-height: 0.9;
-      color: var(--rose-dark);
+      color: #6B2340;
       margin: 1.5rem 0;
       letter-spacing: -0.02em;
     }
@@ -370,15 +442,15 @@
       letter-spacing: 0.55em;
       text-transform: uppercase;
       color: var(--blush-deep);
-      font-weight: 300;
+      font-weight: 400;
       margin-bottom: 1rem;
     }
 
     .details-headline {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3rem, 8vw, 5.5rem);
-      font-weight: 300;
-      color: var(--champagne);
+      font-weight: 400;
+      color: #ffffff;
       line-height: 0.95;
       letter-spacing: -0.02em;
       margin-bottom: 3.5rem;
@@ -418,8 +490,8 @@
     .detail-card-value {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.2rem, 5vw, 3.8rem);
-      font-weight: 300;
-      color: var(--champagne);
+      font-weight: 400;
+      color: #ffffff;
       line-height: 1.05;
       letter-spacing: 0.02em;
     }
@@ -429,7 +501,7 @@
       font-size: 0.72rem;
       letter-spacing: 0.2em;
       color: rgba(247,237,226,0.45);
-      font-weight: 300;
+      font-weight: 400;
       text-transform: uppercase;
     }
 
@@ -459,9 +531,9 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: clamp(1.2rem, 3vw, 1.75rem);
-      color: var(--champagne);
+      color: #ffffff;
       line-height: 1.6;
-      font-weight: 300;
+      font-weight: 400;
     }
 
     .presence-sub {
@@ -470,7 +542,7 @@
       letter-spacing: 0.4em;
       color: var(--blush-deep);
       text-transform: uppercase;
-      font-weight: 300;
+      font-weight: 400;
     }
 
     .dress-note {
@@ -487,7 +559,9 @@
     ══════════════════════════════════════════ */
     #photo2 {
       background: var(--charcoal);
-      flex-direction: column;
+      flex-direction: row;
+      padding: 0;
+      align-items: stretch;
     }
 
     .photo2-bg {
@@ -503,16 +577,18 @@
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      max-width: 640px;
+      grid-template-columns: 55% 45%;
       width: 100%;
+      height: 100vh;
       min-height: 100vh;
-      align-items: center;
+      align-items: stretch;
     }
 
     .photo2-image-wrap {
-      height: 100vh;
+      height: 100%;
+      min-height: 100vh;
       position: relative;
+      overflow: hidden;
     }
 
     .photo2-img {
@@ -527,15 +603,21 @@
     }
 
     .photo2-text {
-      padding: 4rem 3rem;
+      padding: 2.5rem 2rem;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      background: rgba(10,4,6,0.5);
     }
 
     .p2-eyebrow {
       font-size: 0.6rem;
       letter-spacing: 0.5em;
       text-transform: uppercase;
-      color: var(--blush);
+      color: #F9D5D5;
       margin-bottom: 2rem;
       font-weight: 200;
     }
@@ -544,13 +626,13 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: clamp(1.5rem, 3vw, 2.2rem);
-      color: var(--champagne);
+      color: #ffffff;
       line-height: 1.5;
-      font-weight: 300;
+      font-weight: 400;
     }
 
     .p2-quote em {
-      color: var(--blush);
+      color: #F9D5D5;
       font-style: normal;
     }
 
@@ -579,7 +661,7 @@
     .rsvp-heading {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.5rem, 7vw, 4rem);
-      font-weight: 300;
+      font-weight: 400;
       color: var(--rose-dark);
       text-align: center;
       margin-bottom: 0.5rem;
@@ -592,7 +674,7 @@
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--warm-gray);
-      font-weight: 300;
+      font-weight: 400;
       margin-bottom: 3rem;
     }
 
@@ -619,7 +701,7 @@
       background: var(--blush-light);
       font-family: 'Jost', sans-serif;
       font-size: 0.9rem;
-      font-weight: 300;
+      font-weight: 400;
       color: var(--charcoal);
       outline: none;
       transition: border-color 0.25s, background 0.25s;
@@ -736,8 +818,8 @@
     .ty-main {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 300;
-      color: var(--champagne);
+      font-weight: 400;
+      color: #ffffff;
       line-height: 1.05;
       margin-bottom: 1.5rem;
     }
@@ -753,7 +835,7 @@
     }
 
     .ty-body strong {
-      color: var(--champagne);
+      color: #ffffff;
       font-style: normal;
       font-weight: 400;
     }
@@ -765,8 +847,8 @@
       font-size: 0.65rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
-      color: var(--blush);
-      font-weight: 300;
+      color: #F9D5D5;
+      font-weight: 400;
     }
 
     .ty-date {
@@ -803,10 +885,38 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 640px) {
-      .photo2-content { grid-template-columns: 1fr; }
-      .photo2-image-wrap { height: 55vw; }
+      /* Photo 2 — keep split on mobile */
+      .photo2-content {
+        grid-template-columns: 1fr 1fr;
+        min-height: 100vh;
+      }
+      .photo2-image-wrap {
+        height: 100vh;
+      }
+      .photo2-text {
+        padding: 1.5rem 0.75rem;
+      }
+      .p2-quote {
+        font-size: clamp(0.8rem, 3vw, 1.2rem) !important;
+      }
+      .p2-eyebrow {
+        font-size: 0.45rem;
+        letter-spacing: 0.25em;
+        margin-bottom: 0.75rem;
+      }
+      .p2-signature {
+        font-size: 0.5rem;
+        letter-spacing: 0.15em;
+      }
+      /* Carousel dots smaller on mobile */
+      .carousel-dots { top: 1.2rem; gap: 6px; }
+      .cdot { width: 4px; height: 4px; }
+
+      /* Nav */
       .nav-dots { right: 1rem; }
       .corner-deco { display: none; }
+
+      /* Details two-day grid */
       .details-day-grid { grid-template-columns: 1fr !important; }
       .details-day-grid > div:nth-child(2) { display: none !important; }
       .details-day-col { padding: 0 0 2rem 0 !important; }
@@ -838,22 +948,41 @@
   <div class="petal" style="width:16px;height:24px;background:#c47878;top:-5%;left:5%;animation-duration:20s;animation-delay:8s;"></div>
   <div class="petal" style="width:14px;height:10px;background:#e8a9a9;top:-5%;left:55%;animation-duration:16s;animation-delay:4s;"></div>
 
+  <!-- ── FULL-BLEED AUTO CAROUSEL ── -->
+  <div class="carousel" id="heroCarousel">
+    <div class="carousel-slide active">
+      <!-- ▼ PHOTO 1: replace div with <img src="photo1.jpg" alt="Gayatri & Kenil" /> -->
+      <div class="carousel-placeholder" style="background:linear-gradient(145deg,#2a1020 0%,#6b2a40 50%,#1a0a10 100%);"><span>Photo 1</span></div>
+    </div>
+    <div class="carousel-slide">
+      <!-- ▼ PHOTO 2: replace div with <img src="photo2.jpg" alt="Gayatri & Kenil" /> -->
+      <div class="carousel-placeholder" style="background:linear-gradient(145deg,#1a1530 0%,#5c2a50 50%,#0a0a18 100%);"><span>Photo 2</span></div>
+    </div>
+    <div class="carousel-slide">
+      <!-- ▼ PHOTO 3: replace div with <img src="photo3.jpg" alt="Gayatri & Kenil" /> -->
+      <div class="carousel-placeholder" style="background:linear-gradient(145deg,#2a1518 0%,#7a3040 60%,#150810 100%);"><span>Photo 3</span></div>
+    </div>
+    <div class="carousel-slide">
+      <!-- ▼ PHOTO 4: replace div with <img src="photo4.jpg" alt="Gayatri & Kenil" /> -->
+      <div class="carousel-placeholder" style="background:linear-gradient(145deg,#101520 0%,#4a2545 55%,#080c14 100%);"><span>Photo 4</span></div>
+    </div>
+    <div class="carousel-overlay"></div>
+  </div>
+
+  <!-- Slide indicator dots (top center) -->
+  <div class="carousel-dots" id="carouselDots">
+    <button class="cdot active" data-slide="0"></button>
+    <button class="cdot" data-slide="1"></button>
+    <button class="cdot" data-slide="2"></button>
+    <button class="cdot" data-slide="3"></button>
+  </div>
+
   <div class="hero-content">
     <p class="hero-eyebrow">A Love Story · Est. 26 January 2027</p>
-
-    <div class="hero-photo-frame">
-      <div class="hero-photo">
-        <!-- Replace src with your photo: <img src="your-photo.jpg" alt="Gayatri & Kenil" style="width:100%;height:100%;object-fit:cover;" /> -->
-        <div class="photo-placeholder">
-          Your photo<br/>here
-        </div>
-      </div>
-    </div>
-
-    <p class="hero-tagline" style="animation-delay:0.9s;">
-      Two hearts,<br/>
-      <em>one forever</em>
+    <p class="hero-tagline">
+      Two hearts,<br/><em>one forever</em>
     </p>
+    <div class="hero-names-pill">Gayatri &amp; Kenil</div>
   </div>
 
   <div class="scroll-cue">
@@ -900,19 +1029,19 @@
 </section>
 
 <!-- ══ SECTION 3 — DETAILS ══ -->
-<section id="details" style="min-height:100vh;background:#100a0a;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:5rem 2rem;">
+<section id="details" style="min-height:100vh;background:#200d16;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:5rem 2rem;">
 
   <!-- Background atmosphere -->
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 55% at 50% 100%,rgba(176,80,112,0.22) 0%,transparent 65%),radial-gradient(ellipse 40% 35% at 90% 10%,rgba(242,196,196,0.05) 0%,transparent 55%);"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 100% 60% at 50% 110%,rgba(176,80,112,0.55) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 10% 0%,rgba(242,196,196,0.08) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 90% 0%,rgba(196,120,120,0.06) 0%,transparent 50%);"></div>
 
   <!-- Thin border frame -->
-  <div style="position:absolute;inset:2.5rem;border:1px solid rgba(196,120,120,0.1);pointer-events:none;"></div>
+  <div style="position:absolute;inset:2.5rem;border:1px solid rgba(196,120,120,0.2);pointer-events:none;"></div>
 
   <!-- Corner stars -->
-  <span style="position:absolute;top:3.5rem;left:3.5rem;color:rgba(196,120,120,0.35);font-size:0.7rem;">✦</span>
-  <span style="position:absolute;top:3.5rem;right:3.5rem;color:rgba(196,120,120,0.35);font-size:0.7rem;">✦</span>
-  <span style="position:absolute;bottom:3.5rem;left:3.5rem;color:rgba(196,120,120,0.35);font-size:0.7rem;">✦</span>
-  <span style="position:absolute;bottom:3.5rem;right:3.5rem;color:rgba(196,120,120,0.35);font-size:0.7rem;">✦</span>
+  <span style="position:absolute;top:3.5rem;left:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
+  <span style="position:absolute;top:3.5rem;right:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
+  <span style="position:absolute;bottom:3.5rem;left:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
+  <span style="position:absolute;bottom:3.5rem;right:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
 
   <div style="position:relative;z-index:2;max-width:820px;width:100%;text-align:center;">
 
@@ -920,9 +1049,9 @@
     <p class="reveal" style="font-size:0.58rem;letter-spacing:0.55em;text-transform:uppercase;color:#C47878;font-weight:300;margin-bottom:1rem;">Surendranagar · Gujarat · India</p>
 
     <!-- Headline -->
-    <h2 class="reveal delay-1" style="font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,9vw,6rem);font-weight:300;color:#F7EDE2;line-height:0.9;letter-spacing:-0.02em;margin-bottom:0.5rem;">Two Days.<br/><span style="font-style:italic;color:#C47878;">One Forever.</span></h2>
+    <h2 class="reveal delay-1" style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,7vw,5rem);font-weight:300;color:#FFFFFF;line-height:1;letter-spacing:-0.02em;margin-bottom:0.5rem;">Two Days.<br/><span style="font-style:italic;color:#E8A9A9;">One Forever.</span></h2>
 
-    <p class="reveal delay-2" style="font-size:0.58rem;letter-spacing:0.4em;text-transform:uppercase;color:rgba(247,237,226,0.25);font-weight:200;margin-bottom:4rem;">January 2027</p>
+    <p class="reveal delay-2" style="font-size:0.58rem;letter-spacing:0.4em;text-transform:uppercase;color:rgba(232,169,169,0.5);font-weight:200;margin-bottom:3rem;">January 2027</p>
 
     <!-- TWO DAY COLUMNS -->
     <div class="reveal delay-2 details-day-grid" style="display:grid;grid-template-columns:1fr 1px 1fr;gap:0;align-items:start;">
@@ -931,7 +1060,7 @@
       <div class="details-day-col" style="padding:0 2.5rem 0 0;text-align:left;">
         <!-- Day badge -->
         <div style="display:inline-flex;align-items:center;gap:0.75rem;margin-bottom:2rem;">
-          <div style="width:36px;height:36px;border:1px solid rgba(196,120,120,0.4);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:#C47878;font-weight:300;">25</div>
+          <div style="width:36px;height:36px;border:1px solid rgba(232,169,169,0.6);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:#E8A9A9;font-weight:300;">25</div>
           <div>
             <p style="font-size:0.55rem;letter-spacing:0.45em;text-transform:uppercase;color:#C47878;font-weight:300;">January</p>
             <p style="font-size:0.55rem;letter-spacing:0.45em;text-transform:uppercase;color:rgba(247,237,226,0.3);font-weight:200;margin-top:2px;">Sunday</p>
@@ -939,26 +1068,26 @@
         </div>
 
         <!-- Event: Haldi -->
-        <div style="margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(196,120,120,0.12);">
+        <div style="margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(196,120,120,0.25);">
           <p style="font-size:0.5rem;letter-spacing:0.45em;text-transform:uppercase;color:#C47878;font-weight:300;margin-bottom:0.5rem;">Morning</p>
-          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:300;color:#F7EDE2;line-height:1;margin-bottom:0.4rem;">Haldi</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:300;color:#FFFFFF;line-height:1;margin-bottom:0.4rem;">Haldi</p>
           <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;color:rgba(247,237,226,0.35);font-weight:300;">Turmeric, blessings & golden light</p>
         </div>
 
         <!-- Event: Engagement & Sangeet -->
-        <div style="margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(196,120,120,0.12);">
+        <div style="margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(196,120,120,0.25);">
           <p style="font-size:0.5rem;letter-spacing:0.45em;text-transform:uppercase;color:#C47878;font-weight:300;margin-bottom:0.5rem;">Evening</p>
-          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:300;color:#F7EDE2;line-height:1;margin-bottom:0.3rem;">Engagement</p>
-          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:300;color:#F7EDE2;line-height:1;margin-bottom:0.4rem;">& Sangeet</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:300;color:#FFFFFF;line-height:1;margin-bottom:0.3rem;">Engagement</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:300;color:#FFFFFF;line-height:1;margin-bottom:0.4rem;">& Sangeet</p>
           <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;color:rgba(247,237,226,0.35);font-weight:300;">Rings, music & moments</p>
         </div>
 
         <!-- Event: Garba & DJ -->
         <div>
           <p style="font-size:0.5rem;letter-spacing:0.45em;text-transform:uppercase;color:#C47878;font-weight:300;margin-bottom:0.5rem;">After Party</p>
-          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:300;color:#F7EDE2;line-height:1;margin-bottom:0.3rem;">Garba</p>
-          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:300;color:#F7EDE2;line-height:1;margin-bottom:0.4rem;">& DJ Night</p>
-          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;color:rgba(247,237,226,0.35);font-weight:300;">Dance until the stars dim</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:300;color:#FFFFFF;line-height:1;margin-bottom:0.3rem;">Garba</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:300;color:#FFFFFF;line-height:1;margin-bottom:0.4rem;">& DJ Night</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;color:rgba(255,220,210,0.85);font-weight:300;">Dance until the stars dim</p>
         </div>
       </div>
 
@@ -969,7 +1098,7 @@
       <div class="details-day-col" style="padding:0 0 0 2.5rem;text-align:left;">
         <!-- Day badge -->
         <div style="display:inline-flex;align-items:center;gap:0.75rem;margin-bottom:2rem;">
-          <div style="width:36px;height:36px;border:1px solid rgba(196,120,120,0.4);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:#C47878;font-weight:300;">26</div>
+          <div style="width:36px;height:36px;border:1px solid rgba(232,169,169,0.6);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:#E8A9A9;font-weight:300;">26</div>
           <div>
             <p style="font-size:0.55rem;letter-spacing:0.45em;text-transform:uppercase;color:#C47878;font-weight:300;">January</p>
             <p style="font-size:0.55rem;letter-spacing:0.45em;text-transform:uppercase;color:rgba(247,237,226,0.3);font-weight:200;margin-top:2px;">Monday · Republic Day</p>
@@ -977,17 +1106,17 @@
         </div>
 
         <!-- Event: Vivaha Sanskar -->
-        <div style="margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(196,120,120,0.12);">
+        <div style="margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(196,120,120,0.25);">
           <p style="font-size:0.5rem;letter-spacing:0.45em;text-transform:uppercase;color:#C47878;font-weight:300;margin-bottom:0.5rem;">12:30 PM</p>
-          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:300;color:#F7EDE2;line-height:1;margin-bottom:0.3rem;">Vivāha</p>
-          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:300;color:#F7EDE2;line-height:1;margin-bottom:0.5rem;">Saṃskāra</p>
-          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;color:rgba(247,237,226,0.35);font-weight:300;">The sacred union. The vows. The forever.</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:300;color:#FFFFFF;line-height:1;margin-bottom:0.3rem;">Vivāha</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:300;color:#FFFFFF;line-height:1;margin-bottom:0.5rem;">Saṃskāra</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;color:rgba(255,220,210,0.85);font-weight:300;">The sacred union. The vows. The forever.</p>
         </div>
 
         <!-- Presence quote -->
         <div style="padding:1.5rem;border:1px solid rgba(196,120,120,0.2);position:relative;margin-top:2rem;">
           <span style="position:absolute;top:-0.6em;left:1rem;background:#100a0a;padding:0 0.5rem;font-size:0.6rem;color:rgba(196,120,120,0.5);">✦</span>
-          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(0.95rem,2vw,1.15rem);color:rgba(247,237,226,0.7);line-height:1.65;font-weight:300;">
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(0.95rem,2vw,1.15rem);color:rgba(255,235,225,0.9);line-height:1.65;font-weight:300;">
             "Your presence is not just invited —<br/>it is what makes this moment whole."
           </p>
           <p style="margin-top:0.75rem;font-size:0.5rem;letter-spacing:0.4em;text-transform:uppercase;color:#C47878;font-weight:300;">Gayatri &amp; Kenil</p>
@@ -1015,7 +1144,7 @@
 <section id="photo2">
   <div class="photo2-bg"></div>
 
-<div class="photo2-content">
+  <div class="photo2-content">
     <div class="photo2-image-wrap">
       <div class="photo2-img">
         <!-- ▼ PHOTO 2: put your filename below -->
@@ -1029,12 +1158,12 @@
         "Every love story is beautiful —<br/>
         but <em>ours</em> is our favourite."
       </p>
-      <div class="divider reveal delay-2" style="background:rgba(242,196,196,0.4);"></div>
-      <p class="p2-quote reveal delay-2" style="font-size:clamp(0.95rem,2vw,1.2rem);color:rgba(247,237,226,0.55);">
+      <div class="divider reveal delay-2" style="background:rgba(242,196,196,0.4);margin:1.2rem auto;"></div>
+      <p class="p2-quote reveal delay-2" style="font-size:clamp(0.95rem,2vw,1.2rem);color:rgba(247,237,226,0.65);">
         From stolen glances to forever promises —<br/>
         every step led us here, to this.
       </p>
-      <p class="p2-signature reveal delay-3">— 26 . 01 . 2027 —</p>
+      <p class="p2-signature reveal delay-3" style="margin-top:1.5rem;">— 26 . 01 . 2027 —</p>
     </div>
   </div>
 </section>
@@ -1183,7 +1312,6 @@
     document.getElementById('successName').textContent = name;
     sEl.style.display = 'block';
 
-    // In production, replace with your Google Forms / Formspree / EmailJS submission.
     console.log({
       name,
       email:   document.getElementById('femail').value,
@@ -1193,6 +1321,51 @@
       attend:  document.querySelector('input[name="attend"]:checked')?.value
     });
   }
+
+  // ─── CAROUSEL ───
+  const slides = document.querySelectorAll('.carousel-slide');
+  const cdots  = document.querySelectorAll('.cdot');
+  let current = 0;
+  let carouselTimer;
+
+  function goToSlide(n) {
+    slides[current].classList.remove('active');
+    cdots[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    cdots[current].classList.add('active');
+  }
+
+  function nextSlide() { goToSlide(current + 1); }
+
+  function startCarousel() {
+    carouselTimer = setInterval(nextSlide, 4000);
+  }
+
+  // Dot click
+  cdots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      clearInterval(carouselTimer);
+      goToSlide(parseInt(dot.dataset.slide));
+      startCarousel();
+    });
+  });
+
+  // Touch swipe support
+  let touchStartX = 0;
+  document.getElementById('heroCarousel').addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  document.getElementById('heroCarousel').addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 40) {
+      clearInterval(carouselTimer);
+      goToSlide(diff > 0 ? current + 1 : current - 1);
+      startCarousel();
+    }
+  }, { passive: true });
+
+  startCarousel();
 </script>
 </body>
 </html>
