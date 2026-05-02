@@ -135,7 +135,7 @@
       font-weight: 200;
       font-size: 0.65rem;
       letter-spacing: 0.5em;
-      color: #F9D5D5;
+      color: var(--blush);
       text-transform: uppercase;
       margin-bottom: 1.25rem;
       opacity: 0;
@@ -160,7 +160,7 @@
         rgba(26,16,16,0.25) 0%,
         rgba(26,16,16,0.05) 35%,
         rgba(26,16,16,0.55) 70%,
-        rgba(10,4,4,0.97) 100%
+        rgba(26,16,16,0.92) 100%
       );
       z-index: 1;
     }
@@ -197,30 +197,29 @@
     .hero-tagline {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-weight: 400;
-      font-size: clamp(2.8rem, 8vw, 5rem);
-      color: #ffffff;
-      line-height: 1.2;
+      font-weight: 300;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      color: var(--champagne);
+      line-height: 1.35;
       opacity: 0;
       animation: fadeUp 1s 0.8s forwards;
       margin-bottom: 0.4rem;
-      text-shadow: 0 2px 30px rgba(0,0,0,0.7), 0 0 80px rgba(0,0,0,0.4);
     }
 
     .hero-tagline em {
-      color: #F9D5D5;
+      color: var(--blush);
       font-style: normal;
     }
 
     .hero-names-pill {
       display: inline-block;
-      border: 1px solid rgba(242,196,196,0.7);
+      border: 1px solid rgba(242,196,196,0.35);
       padding: 0.4rem 1.5rem;
       font-size: 0.6rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
-      color: rgba(242,196,196,1);
-      font-weight: 400;
+      color: rgba(242,196,196,0.7);
+      font-weight: 300;
       margin-top: 1rem;
       opacity: 0;
       animation: fadeUp 1s 1.5s forwards;
@@ -241,7 +240,7 @@
     .scroll-cue span {
       font-size: 0.6rem;
       letter-spacing: 0.4em;
-      color: rgba(255,255,255,0.5);
+      color: var(--warm-gray);
       text-transform: uppercase;
     }
     .scroll-line {
@@ -297,9 +296,9 @@
 
     .inv-copy {
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
+      font-weight: 300;
       font-size: clamp(1rem, 2.5vw, 1.2rem);
-      color: #2C1F1F;
+      color: var(--charcoal);
       line-height: 1.8;
       margin-bottom: 1.5rem;
     }
@@ -307,9 +306,9 @@
     .couple-names {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3.5rem, 10vw, 6rem);
-      font-weight: 400;
+      font-weight: 300;
       line-height: 0.9;
-      color: #6B2340;
+      color: var(--rose-dark);
       margin: 1.5rem 0;
       letter-spacing: -0.02em;
     }
@@ -371,15 +370,15 @@
       letter-spacing: 0.55em;
       text-transform: uppercase;
       color: var(--blush-deep);
-      font-weight: 400;
+      font-weight: 300;
       margin-bottom: 1rem;
     }
 
     .details-headline {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3rem, 8vw, 5.5rem);
-      font-weight: 400;
-      color: #ffffff;
+      font-weight: 300;
+      color: var(--champagne);
       line-height: 0.95;
       letter-spacing: -0.02em;
       margin-bottom: 3.5rem;
@@ -419,8 +418,8 @@
     .detail-card-value {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.2rem, 5vw, 3.8rem);
-      font-weight: 400;
-      color: #ffffff;
+      font-weight: 300;
+      color: var(--champagne);
       line-height: 1.05;
       letter-spacing: 0.02em;
     }
@@ -430,7 +429,7 @@
       font-size: 0.72rem;
       letter-spacing: 0.2em;
       color: rgba(247,237,226,0.45);
-      font-weight: 400;
+      font-weight: 300;
       text-transform: uppercase;
     }
 
@@ -460,9 +459,9 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: clamp(1.2rem, 3vw, 1.75rem);
-      color: #ffffff;
+      color: var(--champagne);
       line-height: 1.6;
-      font-weight: 400;
+      font-weight: 300;
     }
 
     .presence-sub {
@@ -471,7 +470,7 @@
       letter-spacing: 0.4em;
       color: var(--blush-deep);
       text-transform: uppercase;
-      font-weight: 400;
+      font-weight: 300;
     }
 
     .dress-note {
@@ -505,7 +504,7 @@
       z-index: 2;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      max-width: 900px;
+      max-width: 640px;
       width: 100%;
       min-height: 100vh;
       align-items: center;
@@ -536,7 +535,7 @@
       font-size: 0.6rem;
       letter-spacing: 0.5em;
       text-transform: uppercase;
-      color: #F9D5D5;
+      color: var(--blush);
       margin-bottom: 2rem;
       font-weight: 200;
     }
@@ -545,13 +544,13 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: clamp(1.5rem, 3vw, 2.2rem);
-      color: #ffffff;
+      color: var(--champagne);
       line-height: 1.5;
-      font-weight: 400;
+      font-weight: 300;
     }
 
     .p2-quote em {
-      color: #F9D5D5;
+      color: var(--blush);
       font-style: normal;
     }
 
@@ -580,7 +579,7 @@
     .rsvp-heading {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.5rem, 7vw, 4rem);
-      font-weight: 400;
+      font-weight: 300;
       color: var(--rose-dark);
       text-align: center;
       margin-bottom: 0.5rem;
@@ -593,7 +592,7 @@
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--warm-gray);
-      font-weight: 400;
+      font-weight: 300;
       margin-bottom: 3rem;
     }
 
@@ -620,7 +619,7 @@
       background: var(--blush-light);
       font-family: 'Jost', sans-serif;
       font-size: 0.9rem;
-      font-weight: 400;
+      font-weight: 300;
       color: var(--charcoal);
       outline: none;
       transition: border-color 0.25s, background 0.25s;
@@ -737,8 +736,8 @@
     .ty-main {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 400;
-      color: #ffffff;
+      font-weight: 300;
+      color: var(--champagne);
       line-height: 1.05;
       margin-bottom: 1.5rem;
     }
@@ -754,7 +753,7 @@
     }
 
     .ty-body strong {
-      color: #ffffff;
+      color: var(--champagne);
       font-style: normal;
       font-weight: 400;
     }
@@ -766,8 +765,8 @@
       font-size: 0.65rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
-      color: #F9D5D5;
-      font-weight: 400;
+      color: var(--blush);
+      font-weight: 300;
     }
 
     .ty-date {
@@ -804,35 +803,10 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 640px) {
-      /* Photo 2 — keep 50/50 split on mobile, just tighter */
-      .photo2-content {
-        grid-template-columns: 1fr 1fr;
-        min-height: 100vh;
-      }
-      .photo2-image-wrap {
-        height: 100vh;
-      }
-      .photo2-text {
-        padding: 2rem 1rem;
-      }
-      .p2-quote {
-        font-size: clamp(0.85rem, 3.5vw, 1.4rem);
-      }
-      .p2-eyebrow {
-        font-size: 0.5rem;
-        letter-spacing: 0.3em;
-        margin-bottom: 1rem;
-      }
-      .p2-signature {
-        font-size: 0.55rem;
-        letter-spacing: 0.2em;
-      }
-
-      /* Nav */
+      .photo2-content { grid-template-columns: 1fr; }
+      .photo2-image-wrap { height: 55vw; }
       .nav-dots { right: 1rem; }
       .corner-deco { display: none; }
-
-      /* Details two-day grid */
       .details-day-grid { grid-template-columns: 1fr !important; }
       .details-day-grid > div:nth-child(2) { display: none !important; }
       .details-day-col { padding: 0 0 2rem 0 !important; }
@@ -869,8 +843,10 @@
 
     <div class="hero-photo-frame">
       <div class="hero-photo">
-        <!-- ▼ PHOTO 1: put your filename below -->
-        <img src="Ourphoto.jpeg" alt="Gayatri & Kenil" style="width:100%;height:100%;object-fit:cover;object-position:center top;" />
+        <!-- Replace src with your photo: <img src="your-photo.jpg" alt="Gayatri & Kenil" style="width:100%;height:100%;object-fit:cover;" /> -->
+        <div class="photo-placeholder">
+          Your photo<br/>here
+        </div>
       </div>
     </div>
 
@@ -1039,7 +1015,7 @@
 <section id="photo2">
   <div class="photo2-bg"></div>
 
-  <div class="photo2-content">
+<div class="photo2-content">
     <div class="photo2-image-wrap">
       <div class="photo2-img">
         <!-- ▼ PHOTO 2: put your filename below -->
