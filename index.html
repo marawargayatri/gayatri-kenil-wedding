@@ -584,14 +584,6 @@
         <label class="form-label">Full Name</label>
         <input class="form-input" type="text" id="fname" placeholder="Your name" />
       </div>
-      <div class="form-row reveal delay-2">
-        <label class="form-label">Email Address</label>
-        <input class="form-input" type="email" id="femail" placeholder="your@email.com" />
-      </div>
-      <div class="form-row reveal delay-3">
-        <label class="form-label">Phone Number</label>
-        <input class="form-input" type="tel" id="fphone" placeholder="+91 00000 00000" />
-      </div>
       <div class="form-row reveal delay-3">
         <label class="form-label">Will you be joining us?</label>
         <div class="radio-group">
@@ -684,20 +676,17 @@
     // ── RSVP → Google Sheets via Google Form ──
   function submitRsvp() {
     const name    = document.getElementById('fname').value.trim();
-    const phone   = document.getElementById('fphone').value.trim();
     const guests  = document.getElementById('fguests').value;
     const message = document.getElementById('fmessage').value.trim();
     const attend  = document.querySelector('input[name="attend"]:checked');
 
     if (!name)  { alert('Please enter your name.'); return; }
-    if (!phone) { alert('Please enter your phone number.'); return; }
 
     const FORM_ID = '1FAIpQLSf6629KnsbfysMUqnxXThuGMHLiGJnedFwuLg4MiQsteCSnkQ';
     const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
 
     const body = new URLSearchParams();
     body.append('entry.1374269042', name);
-    body.append('entry.1902311553', phone);
     body.append('entry.1852778650', attend ? (attend.value === 'yes' ? 'Yes' : 'No') : '');
     body.append('entry.139147738',  guests);
     body.append('entry.2039399875', message);
