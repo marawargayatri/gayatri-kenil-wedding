@@ -413,7 +413,7 @@
       <img src="photo3.jpeg" alt="Gayatri & Kenil" />
     </div>
     <div class="carousel-slide">
-      <img src="photo22.jpg" alt="Gayatri & Kenil" />
+      <img src="photo4.jpeg" alt="Gayatri & Kenil" />
     </div>
     <div class="carousel-overlay"></div>
   </div>
@@ -444,6 +444,26 @@
   <div class="corner-deco bl"></div>
   <div class="corner-deco br"></div>
   <div class="invitation-inner">
+
+    <!-- ── GANESHA IMAGE ── -->
+    <div class="reveal" style="margin-bottom:0.8rem;">
+      <!--
+        ▼ GANESHA: Replace the div below with your image:
+        <img src="ganesha.png" alt="Shree Ganesha" style="width:80px;height:auto;display:block;margin:0 auto;opacity:0.85;" />
+      -->
+      <div style="width:80px;height:80px;margin:0 auto;border:1px solid rgba(196,120,120,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(242,196,196,0.1);">
+        <span style="font-size:2.2rem;">🐘</span>
+      </div>
+    </div>
+
+    <!-- Sanskrit blessing -->
+    <div class="reveal" style="margin-bottom:1.5rem;">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:#7A2E45;letter-spacing:0.06em;line-height:1.5;font-weight:400;">॥ श्री गणेशाय नमः ॥</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.58rem;color:#C47878;letter-spacing:0.25em;margin-top:0.25rem;font-weight:300;text-transform:uppercase;">Shree Ganeshay Namah</p>
+    </div>
+
+    <div style="width:40px;height:1px;background:#E8A9A9;margin:0 auto 1.8rem;opacity:0.6;"></div>
+
     <p class="inv-label reveal">With overflowing joy and love</p>
     <p class="inv-copy reveal delay-1">Together with their families,<br/>we joyfully invite you to celebrate the forever of</p>
     <div class="couple-names reveal delay-2">
@@ -555,7 +575,7 @@
 <section id="photo2">
   <div class="photo2-full">
     <!-- ▼ YOUR PHOTO — full bleed behind everything -->
-    <img src="photo5.jpeg" alt="Gayatri & Kenil" />
+    <img src="photo22.jpg" alt="Gayatri & Kenil" />
 
     <!-- Text lives over the photo -->
     <div class="photo2-text-overlay">
@@ -583,6 +603,14 @@
       <div class="form-row reveal delay-2">
         <label class="form-label">Full Name</label>
         <input class="form-input" type="text" id="fname" placeholder="Your name" />
+      </div>
+      <div class="form-row reveal delay-2">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" id="femail" placeholder="your@email.com" />
+      </div>
+      <div class="form-row reveal delay-3">
+        <label class="form-label">Phone Number</label>
+        <input class="form-input" type="tel" id="fphone" placeholder="+91 00000 00000" />
       </div>
       <div class="form-row reveal delay-3">
         <label class="form-label">Will you be joining us?</label>
@@ -676,17 +704,20 @@
     // ── RSVP → Google Sheets via Google Form ──
   function submitRsvp() {
     const name    = document.getElementById('fname').value.trim();
+    const phone   = document.getElementById('fphone').value.trim();
     const guests  = document.getElementById('fguests').value;
     const message = document.getElementById('fmessage').value.trim();
     const attend  = document.querySelector('input[name="attend"]:checked');
 
     if (!name)  { alert('Please enter your name.'); return; }
+    if (!phone) { alert('Please enter your phone number.'); return; }
 
     const FORM_ID = '1FAIpQLSf6629KnsbfysMUqnxXThuGMHLiGJnedFwuLg4MiQsteCSnkQ';
     const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
 
     const body = new URLSearchParams();
     body.append('entry.1374269042', name);
+    body.append('entry.1902311553', phone);
     body.append('entry.1852778650', attend ? (attend.value === 'yes' ? 'Yes' : 'No') : '');
     body.append('entry.139147738',  guests);
     body.append('entry.2039399875', message);
