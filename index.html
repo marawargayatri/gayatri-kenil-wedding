@@ -31,6 +31,11 @@
       overflow-x: hidden;
     }
 
+    /* Lock scrolling while the intro is showing */
+    html.locked, body.locked { overflow: hidden; height: 100%; }
+    /* Hold hero animations until the intro is finished */
+    body.locked #hero * { animation-play-state: paused !important; }
+
     section {
       min-height: 100vh;
       display: flex;
@@ -39,6 +44,73 @@
       position: relative;
       overflow: hidden;
     }
+
+    /* ══ INTRO (IMAGE 1 → TAP → VIDEO 1 → INVITATION) ══ */
+    #intro {
+      position: fixed; inset: 0;
+      z-index: 1000;
+      background: #1a1010;
+      transition: opacity 1s ease;
+    }
+    #intro.hide { opacity: 0; pointer-events: none; }
+
+    #introImg, #introVideo {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;          /* change to "contain" if you don't want edges cropped */
+      object-position: center;
+      display: block;
+    }
+    #introImg { cursor: pointer; transition: opacity 0.6s ease; }
+    #introVideo { opacity: 0; transition: opacity 0.6s ease; background: #000; }
+
+    #intro.playing #introImg { opacity: 0; pointer-events: none; }
+    #intro.playing #introVideo { opacity: 1; }
+    #intro.playing .intro-tap { opacity: 0; pointer-events: none; }
+
+    .intro-shade {
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(10,4,4,0) 55%, rgba(10,4,4,0.65) 100%);
+      transition: opacity 0.6s ease;
+    }
+    #intro.playing .intro-shade { opacity: 0; }
+
+    .intro-tap {
+      position: absolute; left: 50%; bottom: 3rem;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .intro-tap span {
+      font-size: 0.65rem; letter-spacing: 0.5em;
+      text-transform: uppercase; color: rgba(255,255,255,0.9);
+      font-weight: 300; padding-left: 0.5em;
+      text-shadow: 0 1px 12px rgba(0,0,0,0.7);
+      animation: tapPulse 2.2s ease-in-out infinite;
+    }
+    .intro-tap i {
+      width: 1px; height: 36px;
+      background: linear-gradient(to bottom, rgba(242,196,196,0.9), transparent);
+    }
+    @keyframes tapPulse { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
+
+    .intro-skip {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      z-index: 5;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(242,196,196,0.5);
+      color: rgba(255,255,255,0.85);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.6rem; letter-spacing: 0.35em;
+      text-transform: uppercase;
+      padding: 0.55rem 1rem 0.55rem 1.35rem;
+      cursor: pointer;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease, background 0.3s;
+    }
+    .intro-skip:hover { background: rgba(0,0,0,0.6); }
+    #intro.playing .intro-skip { opacity: 1; pointer-events: auto; }
 
     /* NAV DOTS */
     .nav-dots {
@@ -220,8 +292,102 @@
     .couple-names .amp { font-style: italic; font-size: 0.6em; color: var(--blush-deep); display: block; margin: 0.1em 0; }
     .inv-subtext { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; color: var(--warm-gray); line-height: 1.8; margin-top: 1.5rem; }
 
-    /* ══ DETAILS ══ */
-    /* (styles handled inline on section) */
+    /* ══ SCRATCH RIBBON — DATE REVEAL ══ */
+    #savedate {
+      min-height: 0;
+      background: var(--champagne);
+      flex-direction: column;
+      text-align: center;
+      padding: 3.5rem 1rem 4rem;
+    }
+    .sd-inner { width: 100%; max-width: 560px; position: relative; z-index: 2; }
+    .sd-label {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 1.2rem; color: var(--warm-gray);
+      margin-bottom: 1.4rem;
+    }
+
+    /* the ribbon: swallow-tail ends, thin rose-gold frame, soft shadow */
+    .scratch-ribbon {
+      --notch: 24px;
+      position: relative;
+      width: 100%;
+      height: clamp(116px, 29vw, 156px);
+      filter: drop-shadow(0 12px 18px rgba(122,46,69,0.30));
+    }
+    .scratch-frame, .scratch-stage {
+      position: absolute;
+      clip-path: polygon(0 0, 100% 0, calc(100% - var(--notch)) 50%, 100% 100%, 0 100%, var(--notch) 50%);
+    }
+    .scratch-frame {
+      inset: 0;
+      background: linear-gradient(100deg, #E9C9B4 0%, #C47878 50%, #E9C9B4 100%);
+    }
+    .scratch-stage {
+      inset: 3px;
+      overflow: hidden;
+      background: #3a2a2e;
+    }
+
+    /* ▼▼ THE PHOTO BEHIND THE SCRATCH FOIL (slightly greyed out) ▼▼ */
+    .scratch-photo {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: grayscale(0.75) brightness(0.8) contrast(0.95);   /* tweak the greying here */
+      display: block;
+    }
+    .scratch-photo-tint {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(20,8,12,0.55), rgba(20,8,12,0.25) 50%, rgba(20,8,12,0.55));
+    }
+
+    .scratch-date {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 0 calc(var(--notch) + 12px);
+      color: #fff;
+    }
+    .scratch-date .sdate-big {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.9rem, 8.5vw, 3rem);
+      font-weight: 400; line-height: 1; letter-spacing: 0.04em;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.65);
+    }
+    .scratch-date .sdate-small {
+      margin-top: 0.55rem;
+      font-size: 0.58rem; letter-spacing: 0.45em; text-transform: uppercase;
+      color: #F9D5D5; font-weight: 300; padding-left: 0.45em;
+      text-shadow: 0 1px 10px rgba(0,0,0,0.7);
+    }
+
+    #scratchCanvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      cursor: grab;
+      touch-action: none;           /* stops the page scrolling while scratching */
+      transition: opacity 0.9s ease;
+    }
+    #scratchCanvas.gone { opacity: 0; pointer-events: none; }
+
+    /* one slow shine sweep across the foil to invite a scratch */
+    .scratch-shine {
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,0.55) 50%, transparent 58%);
+      background-size: 260% 100%;
+      animation: foilSweep 3.4s ease-in-out infinite;
+    }
+    .scratch-ribbon.done .scratch-shine { display: none; }
+    @keyframes foilSweep { from { background-position: 160% 0; } to { background-position: -60% 0; } }
+
+    .sd-hint {
+      margin-top: 1.4rem;
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 1.05rem; color: var(--warm-gray);
+    }
+    .sd-hint.done { color: var(--rose-dark); }
 
     /* ══ PHOTO 2 — full bleed, text ON photo ══ */
     #photo2 {
@@ -239,7 +405,6 @@
       overflow: hidden;
     }
 
-    /* The actual photo fills everything */
     .photo2-full img {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
@@ -248,7 +413,6 @@
       display: block;
     }
 
-    /* Dark gradient — bottom only, no right side darkening */
     .photo2-full::after {
       content: '';
       position: absolute; inset: 0;
@@ -256,7 +420,6 @@
         linear-gradient(to bottom, rgba(6,2,4,0.0) 0%, rgba(6,2,4,0.1) 45%, rgba(6,2,4,0.82) 80%, rgba(6,2,4,0.96) 100%);
     }
 
-    /* Text sits at the bottom center over the photo */
     .photo2-text-overlay {
       position: absolute; inset: 0;
       display: flex;
@@ -353,13 +516,11 @@
       .nav-dots { right: 1rem; }
       .corner-deco { display: none; }
 
-      /* Details two-day grid stacks */
       .details-day-grid { grid-template-columns: 1fr !important; }
       .details-day-grid > div:nth-child(2) { display: none !important; }
       .details-day-col { padding: 0 0 2rem 0 !important; }
       .details-day-col + .details-day-col { padding: 2rem 0 0 0 !important; border-top: 1px solid rgba(196,120,120,0.15); }
 
-      /* Photo2 — bottom center on mobile */
       .photo2-text-overlay {
         padding: 0;
         align-items: flex-end;
@@ -373,17 +534,34 @@
       .p2-quote { font-size: clamp(1.4rem, 5.5vw, 2rem) !important; }
       .p2-sub   { font-size: clamp(1rem, 4vw, 1.25rem) !important; }
 
-      /* Carousel dots */
       .carousel-dots { top: 1.2rem; gap: 6px; }
       .cdot { width: 4px; height: 4px; }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .intro-tap span, .scratch-shine { animation: none; }
+    }
   </style>
 </head>
-<body>
+<body class="locked">
+
+<!-- ══ INTRO — IMAGE 1 → (tap) → VIDEO 1 → INVITATION ══ -->
+<div id="intro">
+  <!-- ▼ ADD YOUR FIRST IMAGE HERE (file name: intro-image.jpg) -->
+  <img id="introImg" src="intro-image.jpg" alt="Tap to open the invitation" />
+
+  <!-- ▼ ADD YOUR VIDEO HERE (file name: intro-video.mp4) -->
+  <video id="introVideo" src="intro-video.mp4" playsinline webkit-playsinline preload="auto"></video>
+
+  <div class="intro-shade"></div>
+  <div class="intro-tap"><span>Tap to open</span><i></i></div>
+  <button class="intro-skip" id="introSkip" type="button">Skip</button>
+</div>
 
 <nav class="nav-dots" id="navDots">
   <button class="nav-dot active" data-target="hero" title="Home"></button>
   <button class="nav-dot" data-target="invitation" title="Invitation"></button>
+  <button class="nav-dot" data-target="savedate" title="The Date"></button>
   <button class="nav-dot" data-target="details" title="Details"></button>
   <button class="nav-dot" data-target="photo2" title="Us"></button>
   <button class="nav-dot" data-target="rsvp" title="RSVP"></button>
@@ -401,11 +579,9 @@
   <div class="petal" style="width:14px;height:10px;background:#e8a9a9;top:-5%;left:55%;animation-duration:16s;animation-delay:4s;"></div>
 
   <div class="carousel" id="heroCarousel">
-    <!-- SLIDE 1 — shows for 6s first -->
     <div class="carousel-slide active">
       <img src="photo1.png" alt="Gayatri & Kenil" />
     </div>
-    <!-- SLIDES 2–4 — 4s each after -->
     <div class="carousel-slide">
       <img src="photo2.jpeg" alt="Gayatri & Kenil" />
     </div>
@@ -445,14 +621,10 @@
   <div class="corner-deco br"></div>
   <div class="invitation-inner">
 
-    <!-- ── GANESHA IMAGE ── -->
     <div class="reveal" style="margin-bottom:0.8rem;">
-      
-        <img src="ganesha.jpg" alt="Shree Ganesha" style="width:80px;height:auto;display:block;margin:0 auto;opacity:0.85;" />
-    
+      <img src="ganesha.jpg" alt="Shree Ganesha" style="width:80px;height:auto;display:block;margin:0 auto;opacity:0.85;" />
     </div>
 
-    <!-- Sanskrit blessing -->
     <div class="reveal" style="margin-bottom:1.5rem;">
       <p style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:#7A2E45;letter-spacing:0.06em;line-height:1.5;font-weight:400;">॥ श्री गणेशाय नमः ॥</p>
       <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.58rem;color:#C47878;letter-spacing:0.25em;margin-top:0.25rem;font-weight:300;text-transform:uppercase;">Shree Ganeshay Namah</p>
@@ -461,7 +633,7 @@
     <div style="width:40px;height:1px;background:#E8A9A9;margin:0 auto 1.8rem;opacity:0.6;"></div>
 
     <p class="inv-label reveal">With overflowing joy and love</p>
-    <p class="inv-copy reveal delay-1">Together with their families,<br/>we joyfully invite you to celebrate the forever of</p>
+    <p class="inv-copy reveal delay-1">Together with our families,<br/>we joyfully invite you to celebrate the forever of</p>
     <div class="couple-names reveal delay-2">
       Gayatri<span class="amp">&amp;</span>Kenil
     </div>
@@ -469,6 +641,36 @@
     <p class="inv-subtext reveal delay-3">Two souls, one story —<br/>and it begins now.</p>
     <span class="ornament reveal delay-4">Wedding Celebration</span>
     <p class="inv-copy reveal delay-4" style="font-size:0.9rem;color:#8C7B7B;margin-top:0.5rem;">Your presence is our greatest gift.<br/>We cannot imagine this moment without you.</p>
+  </div>
+</section>
+
+<!-- ══ SECTION 2.5 — SCRATCH RIBBON DATE REVEAL ══ -->
+<section id="savedate">
+  <div class="sd-inner">
+    <p class="sd-label reveal">Save the date</p>
+
+    <div class="scratch-ribbon reveal delay-1" id="scratchWrap">
+      <div class="scratch-frame"></div>
+      <div class="scratch-stage">
+
+        <!-- ▼▼▼ ADD YOUR PHOTO HERE (file name: scratch-photo.jpg) — use a wide / landscape photo ▼▼▼ -->
+        <img class="scratch-photo" src="scratch-photo.jpg" alt="" />
+        <!-- ▲▲▲ it is automatically greyed out via CSS (.scratch-photo filter) ▲▲▲ -->
+
+        <div class="scratch-photo-tint"></div>
+
+        <div class="scratch-date">
+          <p class="sdate-big">26 · 01 · 2027</p>
+          <p class="sdate-small">Tuesday · Republic Day</p>
+        </div>
+
+        <!-- The scratch-off foil is drawn on this canvas -->
+        <canvas id="scratchCanvas"></canvas>
+        <div class="scratch-shine"></div>
+      </div>
+    </div>
+
+    <p class="sd-hint reveal delay-2" id="scratchHint">Scratch with your finger to reveal</p>
   </div>
 </section>
 
@@ -495,7 +697,6 @@
       <!-- DAY 1 -->
       <div class="details-day-col" style="padding:0 2.5rem 0 0;text-align:left;">
         <div style="display:inline-flex;align-items:center;gap:0.75rem;margin-bottom:2rem;">
-          <!-- Date number — big and bold -->
           <div style="width:52px;height:52px;border:1px solid rgba(232,169,169,0.6);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:#E8A9A9;font-weight:300;line-height:1;">25</div>
           <div>
             <p style="font-size:0.6rem;letter-spacing:0.45em;text-transform:uppercase;color:#E8A9A9;font-weight:300;">January 2027</p>
@@ -570,10 +771,7 @@
 <!-- ══ SECTION 4 — PHOTO FULL BLEED WITH TEXT OVERLAY ══ -->
 <section id="photo2">
   <div class="photo2-full">
-    <!-- ▼ YOUR PHOTO — full bleed behind everything -->
     <img src="photo5.jpeg" alt="Gayatri & Kenil" />
-
-    <!-- Text lives over the photo -->
     <div class="photo2-text-overlay">
       <div class="photo2-text-inner">
         <p class="p2-eyebrow reveal">Gayatri &amp; Kenil</p>
@@ -648,6 +846,44 @@
 </section>
 
 <script>
+  // ══════════════════════════════════════════
+  //  INTRO: image → tap → video → invitation
+  // ══════════════════════════════════════════
+  const intro      = document.getElementById('intro');
+  const introImg   = document.getElementById('introImg');
+  const introVideo = document.getElementById('introVideo');
+  const introSkip  = document.getElementById('introSkip');
+  let introDone = false;
+  let introStarted = false;
+
+  document.documentElement.classList.add('locked');
+
+  function finishIntro() {
+    if (introDone) return;
+    introDone = true;
+    intro.classList.add('hide');
+    document.body.classList.remove('locked');
+    document.documentElement.classList.remove('locked');
+    window.scrollTo(0, 0);
+    try { introVideo.pause(); } catch (e) {}
+    startCarousel();
+    setTimeout(() => intro.remove(), 1200);
+  }
+
+  function playIntroVideo() {
+    if (introStarted) return;
+    introStarted = true;
+    intro.classList.add('playing');
+    const p = introVideo.play();
+    if (p && p.catch) p.catch(() => finishIntro());   // if the video can't play, go straight to the invitation
+  }
+
+  introImg.addEventListener('click', playIntroVideo);
+  intro.addEventListener('click', e => { if (e.target !== introSkip) playIntroVideo(); });
+  introVideo.addEventListener('ended', finishIntro);
+  introVideo.addEventListener('error', finishIntro);
+  introSkip.addEventListener('click', e => { e.stopPropagation(); finishIntro(); });
+
   // ── REVEAL ON SCROLL ──
   const reveals = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver(entries => {
@@ -656,13 +892,13 @@
   reveals.forEach(el => io.observe(el));
 
   // ── NAV DOTS ──
-  const sections = ['hero','invitation','details','photo2','rsvp','thankyou'];
+  const sections = ['hero','invitation','savedate','details','photo2','rsvp','thankyou'];
   const dots = document.querySelectorAll('.nav-dot');
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => document.getElementById(sections[i]).scrollIntoView({ behavior: 'smooth' }));
   });
   const sectionEls = sections.map(id => document.getElementById(id));
-  new IntersectionObserver(entries => {
+  const navIO = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         const idx = sectionEls.indexOf(e.target);
@@ -670,16 +906,8 @@
         if (idx >= 0) dots[idx].classList.add('active');
       }
     });
-  }, { threshold: 0.5 }).observe(sectionEls[0]);
-  sectionEls.forEach(el => new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const idx = sectionEls.indexOf(e.target);
-        dots.forEach(d => d.classList.remove('active'));
-        if (idx >= 0) dots[idx].classList.add('active');
-      }
-    });
-  }, { threshold: 0.5 }).observe(el));
+  }, { threshold: 0.5 });
+  sectionEls.forEach(el => navIO.observe(el));
 
   // ── RADIO OPTIONS ──
   document.querySelectorAll('.radio-option').forEach(opt => {
@@ -689,23 +917,170 @@
     });
   });
 
-    // ── RSVP → Google Sheets via Google Form ──
+  // ══════════════════════════════════════════
+  //  SCRATCH RIBBON
+  // ══════════════════════════════════════════
+  (function () {
+    const wrap   = document.getElementById('scratchWrap');
+    const stage  = document.querySelector('.scratch-stage');
+    const canvas = document.getElementById('scratchCanvas');
+    const hint   = document.getElementById('scratchHint');
+    const ctx    = canvas.getContext('2d', { willReadFrequently: true });
+    const BRUSH  = 22;            // scratch radius in CSS px
+    const REVEAL_AT = 0.45;       // auto-reveal once 45% is scratched
+    let drawing = false, revealed = false;
+    let lastX = 0, lastY = 0, moves = 0, lastW = 0;
+
+    function paintFoil() {
+      const r = stage.getBoundingClientRect();
+      const w = Math.round(r.width), h = Math.round(r.height);
+      if (!w || !h) return;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width  = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.globalCompositeOperation = 'source-over';
+      lastW = w;
+
+      // rose-gold foil, running left to right
+      const g = ctx.createLinearGradient(0, 0, w, h * 0.6);
+      g.addColorStop(0.00, '#D9A99A');
+      g.addColorStop(0.20, '#F3D4C6');
+      g.addColorStop(0.45, '#C98E86');
+      g.addColorStop(0.70, '#F0CBBE');
+      g.addColorStop(1.00, '#C58B84');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, w, h);
+
+      // brushed-metal grain
+      for (let i = 0; i < 700; i++) {
+        const x = Math.random() * w, y = Math.random() * h;
+        ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.15)' : 'rgba(120,60,60,0.10)';
+        ctx.fillRect(x, y, Math.random() * 16 + 2, 1);
+      }
+
+      // diamond sparkles
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      for (let i = 0; i < 18; i++) {
+        const x = Math.random() * w, y = Math.random() * h, s = Math.random() * 3 + 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x, y - s); ctx.lineTo(x + s * 0.6, y);
+        ctx.lineTo(x, y + s); ctx.lineTo(x - s * 0.6, y);
+        ctx.closePath(); ctx.fill();
+      }
+
+      // stitched ticket border (kept clear of the swallow-tail ends)
+      ctx.strokeStyle = 'rgba(122,46,69,0.4)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.strokeRect(40.5, 10.5, w - 81, h - 21);
+      ctx.setLineDash([]);
+
+      // text — one line, shrunk to fit
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = 'rgba(122,46,69,0.9)';
+      const label = 'Scratch to reveal the date';
+      let fs = Math.round(h * 0.3);
+      ctx.font = 'italic 400 ' + fs + 'px "Cormorant Garamond", serif';
+      while (ctx.measureText(label).width > w * 0.62 && fs > 13) {
+        fs--;
+        ctx.font = 'italic 400 ' + fs + 'px "Cormorant Garamond", serif';
+      }
+      ctx.fillText(label, w / 2, h / 2);
+
+      ctx.font = '300 ' + Math.round(fs * 0.8) + 'px Jost, sans-serif';
+      ctx.fillText('✦', w * 0.15, h / 2);
+      ctx.fillText('✦', w * 0.85, h / 2);
+    }
+
+    function pos(e) {
+      const r = canvas.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+
+    function scratchTo(x, y) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = BRUSH * 2;
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      lastX = x; lastY = y;
+    }
+
+    function progress() {
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let clear = 0, total = 0;
+      const step = 4 * 10;
+      for (let i = 3; i < data.length; i += step) {
+        total++;
+        if (data[i] < 128) clear++;
+      }
+      return clear / total;
+    }
+
+    function reveal() {
+      if (revealed) return;
+      revealed = true;
+      canvas.classList.add('gone');
+      wrap.classList.add('done');
+      hint.textContent = 'See you on the 26th ✦';
+      hint.classList.add('done');
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+      if (revealed) return;
+      drawing = true;
+      canvas.setPointerCapture(e.pointerId);
+      const p = pos(e);
+      lastX = p.x; lastY = p.y;
+      scratchTo(p.x, p.y);
+      e.preventDefault();
+    });
+    canvas.addEventListener('pointermove', e => {
+      if (!drawing || revealed) return;
+      const p = pos(e);
+      scratchTo(p.x, p.y);
+      if (++moves % 10 === 0 && progress() > REVEAL_AT) reveal();
+      e.preventDefault();
+    });
+    const end = () => {
+      if (!drawing) return;
+      drawing = false;
+      if (!revealed && progress() > REVEAL_AT) reveal();
+    };
+    canvas.addEventListener('pointerup', end);
+    canvas.addEventListener('pointercancel', end);
+
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(paintFoil);
+    window.addEventListener('resize', () => {
+      if (revealed) return;
+      const w = Math.round(stage.getBoundingClientRect().width);
+      if (w !== lastW) paintFoil();
+    });
+  })();
+
+  // ══════════════════════════════════════════
+  //  RSVP → Google Sheets via Google Form
+  // ══════════════════════════════════════════
   function submitRsvp() {
     const name    = document.getElementById('fname').value.trim();
-    const phone   = document.getElementById('fphone').value.trim();
     const guests  = document.getElementById('fguests').value;
     const message = document.getElementById('fmessage').value.trim();
     const attend  = document.querySelector('input[name="attend"]:checked');
 
-    if (!name)  { alert('Please enter your name.'); return; }
-  
+    if (!name)   { alert('Please enter your name.'); return; }
+    if (!attend) { alert('Please let us know if you can join us.'); return; }
 
     const FORM_ID = '1FAIpQLSf6629KnsbfysMUqnxXThuGMHLiGJnedFwuLg4MiQsteCSnkQ';
     const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
 
     const body = new URLSearchParams();
     body.append('entry.1374269042', name);
-    body.append('entry.1852778650', attend ? (attend.value === 'yes' ? 'Yes' : 'No') : '');
+    body.append('entry.1852778650', attend.value === 'yes' ? 'Yes' : 'No');
     body.append('entry.139147738',  guests);
     body.append('entry.2039399875', message);
 
@@ -716,11 +1091,15 @@
     document.getElementById('formSuccess').style.display = 'block';
   }
 
-  // ── CAROUSEL — slide 1 shows 6s, then all 4s ──
+  // ══════════════════════════════════════════
+  //  HERO CAROUSEL — starts after the intro ends
+  //  slide 1 shows 6s, then 4s each
+  // ══════════════════════════════════════════
   const slides = document.querySelectorAll('.carousel-slide');
   const cdots  = document.querySelectorAll('.cdot');
   let current = 0;
   let carouselTimer;
+  let carouselStarted = false;
 
   function goToSlide(n) {
     slides[current].classList.remove('active');
@@ -731,16 +1110,19 @@
   }
 
   function startLoop() {
+    clearInterval(carouselTimer);
     carouselTimer = setInterval(() => goToSlide(current + 1), 4000);
   }
 
-  // First slide stays for 6 seconds, then hand off to 4s loop
-  setTimeout(() => {
-    goToSlide(1);
-    startLoop();
-  }, 6000);
+  function startCarousel() {
+    if (carouselStarted) return;
+    carouselStarted = true;
+    setTimeout(() => {
+      goToSlide(1);
+      startLoop();
+    }, 6000);
+  }
 
-  // Dot clicks
   cdots.forEach(dot => {
     dot.addEventListener('click', () => {
       clearInterval(carouselTimer);
@@ -749,7 +1131,6 @@
     });
   });
 
-  // Swipe
   let touchStartX = 0;
   document.getElementById('heroCarousel').addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].screenX;
