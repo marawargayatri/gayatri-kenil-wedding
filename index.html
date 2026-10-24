@@ -66,7 +66,7 @@
 
     #intro.playing #introImg { opacity: 0; pointer-events: none; }
     #intro.playing #introVideo { opacity: 1; }
-    #intro.playing .intro-tap { opacity: 0; pointer-events: none; }
+    #intro.tapped .intro-tap { opacity: 0; pointer-events: none; }
 
     .intro-shade {
       position: absolute; inset: 0; pointer-events: none;
@@ -110,7 +110,7 @@
       transition: opacity 0.4s ease, background 0.3s;
     }
     .intro-skip:hover { background: rgba(0,0,0,0.6); }
-    #intro.playing .intro-skip { opacity: 1; pointer-events: auto; }
+    #intro.tapped .intro-skip { opacity: 1; pointer-events: auto; }
 
     /* NAV DOTS */
     .nav-dots {
@@ -472,23 +472,9 @@
       text-shadow: 0 1px 8px rgba(0,0,0,0.5);
     }
 
-    /* ══ RSVP ══ */
-    #rsvp { background: var(--ivory); flex-direction: column; }
-    .rsvp-inner { max-width: 560px; width: 100%; padding: 4rem 2rem; }
-    .rsvp-heading { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 7vw, 4rem); font-weight: 400; color: var(--rose-dark); text-align: center; margin-bottom: 0.5rem; line-height: 1; }
-    .rsvp-sub { text-align: center; font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--warm-gray); font-weight: 400; margin-bottom: 3rem; }
-    .form-row { margin-bottom: 1.25rem; }
-    .form-label { display: block; font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--warm-gray); font-weight: 400; margin-bottom: 0.5rem; }
-    .form-input, .form-select, .form-textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--blush-mid); background: var(--blush-light); font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 400; color: var(--charcoal); outline: none; transition: border-color 0.25s, background 0.25s; border-radius: 0; -webkit-appearance: none; }
-    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--rose); background: #fff; }
-    .form-textarea { resize: vertical; min-height: 90px; }
-    .radio-group { display: flex; gap: 1rem; }
-    .radio-option { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem 1rem; border: 1px solid var(--blush-mid); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm-gray); font-weight: 400; }
-    .radio-option input { display: none; }
-    .radio-option.selected { background: var(--rose); border-color: var(--rose); color: #fff; }
-    .form-btn { display: block; width: 100%; padding: 1rem; background: var(--rose-dark); color: var(--blush-light); border: none; font-family: 'Jost', sans-serif; font-size: 0.7rem; font-weight: 400; letter-spacing: 0.4em; text-transform: uppercase; cursor: pointer; transition: background 0.3s, letter-spacing 0.3s; margin-top: 2rem; }
-    .form-btn:hover { background: var(--rose); letter-spacing: 0.55em; }
-    .form-success { display: none; text-align: center; padding: 3rem 2rem; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.4rem; color: var(--rose-dark); line-height: 1.7; }
+    /* ══ RSVP LINE ══ */
+    .rsvp-line { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2.6vw, 1.4rem); color: rgba(247,237,226,0.85); line-height: 1.7; margin: 0 auto 2.5rem; }
+    .rsvp-line a { color: #F9D5D5; text-decoration: none; border-bottom: 1px solid rgba(242,196,196,0.5); padding-bottom: 1px; }
 
     /* ══ THANK YOU ══ */
     #thankyou { background: var(--rose-dark); flex-direction: column; text-align: center; position: relative; }
@@ -547,11 +533,11 @@
 
 <!-- ══ INTRO — IMAGE 1 → (tap) → VIDEO 1 → INVITATION ══ -->
 <div id="intro">
-  <!-- ▼ ADD YOUR FIRST IMAGE HERE (file name: intro-image.jpg) -->
+  <!-- ▼ OPENING IMAGE -->
   <img id="introImg" src="unnamed(1).jpg" alt="Tap to open the invitation" />
 
-  <!-- ▼ ADD YOUR VIDEO HERE (file name: intro-video.mp4) -->
-  <video id="introVideo" src="gemini_generated_video_55e49a83.mp4" playsinline webkit-playsinline preload="auto"></video>
+  <!-- ▼ VIDEO THAT PLAYS ON TAP -->
+  <video id="introVideo" src="video1.mp4" playsinline webkit-playsinline preload="auto"></video>
 
   <div class="intro-shade"></div>
   <div class="intro-tap"><span>Tap to open</span><i></i></div>
@@ -564,7 +550,6 @@
   <button class="nav-dot" data-target="savedate" title="The Date"></button>
   <button class="nav-dot" data-target="details" title="Details"></button>
   <button class="nav-dot" data-target="photo2" title="Us"></button>
-  <button class="nav-dot" data-target="rsvp" title="RSVP"></button>
   <button class="nav-dot" data-target="thankyou" title="Thank You"></button>
 </nav>
 
@@ -788,45 +773,6 @@
   </div>
 </section>
 
-<!-- ══ SECTION 5 — RSVP ══ -->
-<section id="rsvp">
-  <div class="rsvp-inner">
-    <h2 class="rsvp-heading reveal">RSVP</h2>
-    <p class="rsvp-sub reveal delay-1">Kindly respond by 01 December 2026</p>
-    <div id="rsvpForm">
-      <div class="form-row reveal delay-2">
-        <label class="form-label">Full Name</label>
-        <input class="form-input" type="text" id="fname" placeholder="Your name" />
-      </div>
-      <div class="form-row reveal delay-3">
-        <label class="form-label">Will you be joining us?</label>
-        <div class="radio-group">
-          <label class="radio-option" id="opt-yes"><input type="radio" name="attend" value="yes" />✓ Joyfully Attending</label>
-          <label class="radio-option" id="opt-no"><input type="radio" name="attend" value="no" />✗ Unable to Attend</label>
-        </div>
-      </div>
-      <div class="form-row reveal delay-4">
-        <label class="form-label">Number of Guests</label>
-        <select class="form-select" id="fguests">
-          <option value="">Select</option>
-          <option>Just me</option>
-          <option>2</option><option>3</option><option>4</option><option>5+</option>
-        </select>
-      </div>
-      <div class="form-row reveal delay-4">
-        <label class="form-label">A message for the couple (optional)</label>
-        <textarea class="form-textarea" id="fmessage" placeholder="Share your love, wishes, a memory…"></textarea>
-      </div>
-      <button class="form-btn reveal delay-4" onclick="submitRsvp()">Send with Love</button>
-    </div>
-    <div class="form-success" id="formSuccess">
-      <p>✦</p>
-      <p style="margin-top:1rem;">Thank you, <span id="successName"></span>.</p>
-      <p style="margin-top:0.75rem;font-size:1rem;color:#8C7B7B;">Your love and your presence mean everything to us. We'll see you on the 26th!</p>
-    </div>
-  </div>
-</section>
-
 <!-- ══ SECTION 6 — THANK YOU ══ -->
 <section id="thankyou">
   <div class="ty-bg"></div>
@@ -840,6 +786,7 @@
       Now, we ask you to do us one more honour —<br/>
       <strong>be a witness to this moment.</strong>
     </p>
+    <p class="rsvp-line reveal delay-3">Please RSVP us on <a href="tel:+910000000000">+91 00000 00000</a></p>
     <div class="ty-witness reveal delay-3">Gayatri &amp; Kenil · 26 January 2027</div>
     <p class="ty-date reveal delay-4">Surendranagar, Gujarat, India</p>
   </div>
@@ -873,15 +820,26 @@
   function playIntroVideo() {
     if (introStarted) return;
     introStarted = true;
-    intro.classList.add('playing');
+    intro.classList.add('tapped');
+
+    // safety net: if the video never starts (slow / broken file), just open the invitation
+    const fallback = setTimeout(finishIntro, 10000);
+
+    // keep the photo on screen until the video is really playing, then cross-fade
+    introVideo.addEventListener('playing', () => {
+      clearTimeout(fallback);
+      intro.classList.add('playing');
+    }, { once: true });
+
     const p = introVideo.play();
-    if (p && p.catch) p.catch(() => finishIntro());   // if the video can't play, go straight to the invitation
+    if (p && p.catch) p.catch(() => { clearTimeout(fallback); finishIntro(); });
   }
 
   introImg.addEventListener('click', playIntroVideo);
   intro.addEventListener('click', e => { if (e.target !== introSkip) playIntroVideo(); });
   introVideo.addEventListener('ended', finishIntro);
-  introVideo.addEventListener('error', finishIntro);
+  // only react to a video error AFTER the guest has tapped (an early error must not skip the opening image)
+  introVideo.addEventListener('error', () => { if (introStarted) finishIntro(); });
   introSkip.addEventListener('click', e => { e.stopPropagation(); finishIntro(); });
 
   // ── REVEAL ON SCROLL ──
@@ -892,7 +850,7 @@
   reveals.forEach(el => io.observe(el));
 
   // ── NAV DOTS ──
-  const sections = ['hero','invitation','savedate','details','photo2','rsvp','thankyou'];
+  const sections = ['hero','invitation','savedate','details','photo2','thankyou'];
   const dots = document.querySelectorAll('.nav-dot');
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => document.getElementById(sections[i]).scrollIntoView({ behavior: 'smooth' }));
@@ -908,14 +866,6 @@
     });
   }, { threshold: 0.5 });
   sectionEls.forEach(el => navIO.observe(el));
-
-  // ── RADIO OPTIONS ──
-  document.querySelectorAll('.radio-option').forEach(opt => {
-    opt.addEventListener('click', function() {
-      document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
-      this.classList.add('selected');
-    });
-  });
 
   // ══════════════════════════════════════════
   //  SCRATCH RIBBON
@@ -1062,34 +1012,6 @@
       if (w !== lastW) paintFoil();
     });
   })();
-
-  // ══════════════════════════════════════════
-  //  RSVP → Google Sheets via Google Form
-  // ══════════════════════════════════════════
-  function submitRsvp() {
-    const name    = document.getElementById('fname').value.trim();
-    const guests  = document.getElementById('fguests').value;
-    const message = document.getElementById('fmessage').value.trim();
-    const attend  = document.querySelector('input[name="attend"]:checked');
-
-    if (!name)   { alert('Please enter your name.'); return; }
-    if (!attend) { alert('Please let us know if you can join us.'); return; }
-
-    const FORM_ID = '1FAIpQLSf6629KnsbfysMUqnxXThuGMHLiGJnedFwuLg4MiQsteCSnkQ';
-    const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
-
-    const body = new URLSearchParams();
-    body.append('entry.1374269042', name);
-    body.append('entry.1852778650', attend.value === 'yes' ? 'Yes' : 'No');
-    body.append('entry.139147738',  guests);
-    body.append('entry.2039399875', message);
-
-    fetch(url, { method: 'POST', mode: 'no-cors', body }).catch(() => {});
-
-    document.getElementById('rsvpForm').style.display = 'none';
-    document.getElementById('successName').textContent = name;
-    document.getElementById('formSuccess').style.display = 'block';
-  }
 
   // ══════════════════════════════════════════
   //  HERO CAROUSEL — starts after the intro ends
