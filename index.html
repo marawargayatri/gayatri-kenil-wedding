@@ -800,10 +800,35 @@
   const introImg   = document.getElementById('introImg');
   const introVideo = document.getElementById('introVideo');
   const introSkip  = document.getElementById('introSkip');
+  const INTRO_VIDEO_SECONDS = 3;   // ← how long the video plays before the invitation opens
   let introDone = false;
   let introStarted = false;
 
   document.documentElement.classList.add('locked');
+
+  // ── Opening image: if the file name/extension isn't found, try the common variants ──
+  // (browsers often save duplicates as "unnamed (1).jpg" WITH a space, or as .jpeg/.png/.webp)
+  const INTRO_IMAGE_CANDIDATES = [
+    'unnamed(1).jpg', 'unnamed (1).jpg',
+    'unnamed(1).jpeg', 'unnamed (1).jpeg',
+    'unnamed(1).png', 'unnamed (1).png',
+    'unnamed(1).webp', 'unnamed (1).webp',
+    'intro-image.jpg',
+    'photo1.png'                       // last resort: first hero photo, so the screen is never empty
+  ];
+  let introImgTry = 0;
+  function nextIntroImage() {
+    introImgTry++;
+    if (introImgTry < INTRO_IMAGE_CANDIDATES.length) {
+      introImg.src = encodeURI(INTRO_IMAGE_CANDIDATES[introImgTry]);
+    } else {
+      console.warn('Opening image: none of the file names were found. Check the file name & folder.');
+    }
+  }
+  introImg.addEventListener('error', nextIntroImage);
+  introImg.addEventListener('load', () => console.log('Opening image loaded:', introImg.getAttribute('src')));
+  // the error may already have happened before this script ran
+  if (introImg.complete && introImg.naturalWidth === 0) nextIntroImage();
 
   function finishIntro() {
     if (introDone) return;
@@ -829,6 +854,8 @@
     introVideo.addEventListener('playing', () => {
       clearTimeout(fallback);
       intro.classList.add('playing');
+      // stop the video after N seconds and open the invitation
+      setTimeout(finishIntro, INTRO_VIDEO_SECONDS * 1000);
     }, { once: true });
 
     const p = introVideo.play();
