@@ -599,25 +599,28 @@
   <div class="petal" style="width:16px;height:24px;background:#c47878;top:-5%;left:5%;animation-duration:20s;animation-delay:8s;"></div>
   <div class="petal" style="width:14px;height:10px;background:#e8a9a9;top:-5%;left:55%;animation-duration:16s;animation-delay:4s;"></div>
 
-  <div class="carousel" id="heroCarousel">
-    <div class="carousel-slide active">
-      <img src="photo1.png" alt="Gayatri & Kenil" />
-    </div>
-    <div class="carousel-slide">
-      <img src="photo01.jpg.jpeg" alt="Gayatri & Kenil" />
-    </div>
-    <div class="carousel-slide">
-      <img src="photo21.jpg.jpeg" alt="Gayatri & Kenil" />
-    </div>
-    <div class="carousel-slide">
-      <img src="photo31.jpg.jpeg" alt="Gayatri & Kenil" />
-    </div>
-    <div class="carousel-slide">
-      <img src="photo41.jpg.jpeg" alt="Gayatri & Kenil" />
-    </div>
-    <div class="carousel-overlay"></div>
-  </div>
+<div class="carousel-slide active">
+  <img src="photo1.png" alt="Gayatri & Kenil" />
+</div>
+<div class="carousel-slide">
+  <img src="photo01.jpg.jpeg" alt="Gayatri & Kenil" />
+</div>
+<div class="carousel-slide">
+  <img src="ph2.jpg.jpeg" alt="Gayatri & Kenil" />   <!-- if you meant photo22, change the name here -->
+</div>
+  <div class="carousel-slide" data-laptop>
+  <img src="photo22.jpg.jpeg" alt="Gayatri & Kenil" />
+</div>
+<div class="carousel-slide" data-laptop>
+  <img src="photo31.jpg.jpeg" alt="Gayatri & Kenil" />
+</div>
+<div class="carousel-slide" data-laptop>
+  <img src="photo41.jpg.jpeg" alt="Gayatri & Kenil" />
+</div>
+<div class="carousel-overlay"></div>
 
+
+  
   <div class="carousel-dots" id="carouselDots">
     <button class="cdot active" data-slide="0"></button>
     <button class="cdot" data-slide="1"></button>
@@ -1085,6 +1088,14 @@
   //  HERO CAROUSEL — starts after the intro ends
   //  slide 1 shows 6s, then 4s each
   // ══════════════════════════════════════════
+  // On laptops/desktops (screen 900px or wider), keep only the photos marked data-laptop
+if (window.matchMedia('(min-width: 900px)').matches) {
+  document.querySelectorAll('.carousel-slide:not([data-laptop])').forEach(el => el.remove());
+  document.querySelectorAll('.carousel-slide').forEach(el => el.classList.remove('active'));
+  const first = document.querySelector('.carousel-slide');
+  if (first) first.classList.add('active');
+}
+  
   const slides = document.querySelectorAll('.carousel-slide');
   // build one dot per slide automatically, so the count can never go out of sync
 const dotsBox = document.getElementById('carouselDots');
