@@ -187,8 +187,13 @@
     .carousel-slide img {
       width: 100%; height: 100%;
       object-fit: cover;
-      object-position: center top;
+      object-position: center top;      /* phones: keep the top of the photo (faces) */
       display: block;
+    }
+    /* Laptops / desktops: crop around the MIDDLE of the photo instead of the top.
+       Tip: use "center 30%" to nudge the crop a little higher if faces get cut. */
+    @media (min-width: 900px) {
+      .carousel-slide img { object-position: center center; }
     }
     .carousel-placeholder {
       width: 100%; height: 100%;
@@ -599,34 +604,32 @@
   <div class="petal" style="width:16px;height:24px;background:#c47878;top:-5%;left:5%;animation-duration:20s;animation-delay:8s;"></div>
   <div class="petal" style="width:14px;height:10px;background:#e8a9a9;top:-5%;left:55%;animation-duration:16s;animation-delay:4s;"></div>
 
-<div class="carousel-slide active">
-  <img src="photo1.png" alt="Gayatri & Kenil" />
-</div>
-<div class="carousel-slide">
-  <img src="photo01.jpg.jpeg" alt="Gayatri & Kenil" />
-</div>
-<div class="carousel-slide">
-  <img src="ph2.jpg.jpeg" alt="Gayatri & Kenil" />   <!-- if you meant photo22, change the name here -->
-</div>
-  <div class="carousel-slide" data-laptop>
-  <img src="photo22.jpg.jpeg" alt="Gayatri & Kenil" />
-</div>
-<div class="carousel-slide" data-laptop>
-  <img src="photo31.jpg.jpeg" alt="Gayatri & Kenil" />
-</div>
-<div class="carousel-slide" data-laptop>
-  <img src="photo41.jpg.jpeg" alt="Gayatri & Kenil" />
-</div>
-<div class="carousel-overlay"></div>
-
-
-  
-  <div class="carousel-dots" id="carouselDots">
-    <button class="cdot active" data-slide="0"></button>
-    <button class="cdot" data-slide="1"></button>
-    <button class="cdot" data-slide="2"></button>
-    <button class="cdot" data-slide="3"></button>
+  <!-- Slides WITHOUT data-laptop show on phones only.
+       Slides WITH data-laptop show on phones AND laptops. -->
+  <div class="carousel" id="heroCarousel">
+    <div class="carousel-slide active">
+      <img src="photo1.png" alt="Gayatri & Kenil" />
+    </div>
+    <div class="carousel-slide">
+      <img src="photo01.jpg.jpeg" alt="Gayatri & Kenil" />
+    </div>
+    <div class="carousel-slide">
+      <img src="ph2.jpg.jpeg" alt="Gayatri & Kenil" />
+    </div>
+    <div class="carousel-slide" data-laptop>
+      <img src="photo22.jpg.jpeg" alt="Gayatri & Kenil" />
+    </div>
+    <div class="carousel-slide" data-laptop>
+      <img src="photo31.jpg.jpeg" alt="Gayatri & Kenil" />
+    </div>
+    <div class="carousel-slide" data-laptop>
+      <img src="photo41.jpg.jpeg" alt="Gayatri & Kenil" />
+    </div>
+    <div class="carousel-overlay"></div>
   </div>
+
+  <!-- dots are built automatically by the script, one per slide -->
+  <div class="carousel-dots" id="carouselDots"></div>
 
   <div class="hero-content">
     <p class="hero-eyebrow">We joyfully invite you to witness a love story. 26 January 2027</p>
@@ -1086,27 +1089,31 @@
 
   // ══════════════════════════════════════════
   //  HERO CAROUSEL — starts after the intro ends
-  //  slide 1 shows 6s, then 4s each
+  //  every photo shows for SLIDE_SECONDS, then it loops
   // ══════════════════════════════════════════
+  const SLIDE_SECONDS = 3;   // ← the only number to change: seconds each photo shows
+
   // On laptops/desktops (screen 900px or wider), keep only the photos marked data-laptop
-if (window.matchMedia('(min-width: 900px)').matches) {
-  document.querySelectorAll('.carousel-slide:not([data-laptop])').forEach(el => el.remove());
-  document.querySelectorAll('.carousel-slide').forEach(el => el.classList.remove('active'));
-  const first = document.querySelector('.carousel-slide');
-  if (first) first.classList.add('active');
-}
-  
+  if (window.matchMedia('(min-width: 900px)').matches) {
+    document.querySelectorAll('.carousel-slide:not([data-laptop])').forEach(el => el.remove());
+    document.querySelectorAll('.carousel-slide').forEach(el => el.classList.remove('active'));
+    const first = document.querySelector('.carousel-slide');
+    if (first) first.classList.add('active');
+  }
+
   const slides = document.querySelectorAll('.carousel-slide');
+
   // build one dot per slide automatically, so the count can never go out of sync
-const dotsBox = document.getElementById('carouselDots');
-dotsBox.innerHTML = '';
-slides.forEach((_, i) => {
-  const b = document.createElement('button');
-  b.className = 'cdot' + (i === 0 ? ' active' : '');
-  b.dataset.slide = i;
-  dotsBox.appendChild(b);
-});
-const cdots = dotsBox.querySelectorAll('.cdot');
+  const dotsBox = document.getElementById('carouselDots');
+  dotsBox.innerHTML = '';
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'cdot' + (i === 0 ? ' active' : '');
+    b.dataset.slide = i;
+    dotsBox.appendChild(b);
+  });
+  const cdots = dotsBox.querySelectorAll('.cdot');
+
   let current = 0;
   let carouselTimer;
   let carouselStarted = false;
@@ -1119,18 +1126,17 @@ const cdots = dotsBox.querySelectorAll('.cdot');
     cdots[current].classList.add('active');
   }
 
- const SLIDE_SECONDS = 3;   // ← the only number to change: seconds each photo shows
+  function startLoop() {
+    clearInterval(carouselTimer);
+    carouselTimer = setInterval(() => goToSlide(current + 1), SLIDE_SECONDS * 1000);
+  }
 
-function startLoop() {
-  clearInterval(carouselTimer);
-  carouselTimer = setInterval(() => goToSlide(current + 1), SLIDE_SECONDS * 1000);
-}
+  function startCarousel() {
+    if (carouselStarted) return;
+    carouselStarted = true;
+    startLoop();             // starts the loop as soon as the intro ends
+  }
 
-function startCarousel() {
-  if (carouselStarted) return;
-  carouselStarted = true;
-  startLoop();             // starts the 3-second loop as soon as the intro ends
-}
   cdots.forEach(dot => {
     dot.addEventListener('click', () => {
       clearInterval(carouselTimer);
@@ -1139,11 +1145,13 @@ function startCarousel() {
     });
   });
 
+  // swipe left / right on the photos
   let touchStartX = 0;
-  document.getElementById('heroCarousel').addEventListener('touchstart', e => {
+  const heroCarousel = document.getElementById('heroCarousel');
+  heroCarousel.addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].screenX;
   }, { passive: true });
-  document.getElementById('heroCarousel').addEventListener('touchend', e => {
+  heroCarousel.addEventListener('touchend', e => {
     const diff = touchStartX - e.changedTouches[0].screenX;
     if (Math.abs(diff) > 40) {
       clearInterval(carouselTimer);
