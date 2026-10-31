@@ -292,6 +292,29 @@
     .couple-names .amp { font-style: italic; font-size: 0.6em; color: var(--blush-deep); display: block; margin: 0.1em 0; }
     .inv-subtext { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; color: var(--warm-gray); line-height: 1.8; margin-top: 1.5rem; }
 
+    /* ── Invitation: dim photo background + light text ── */
+    #invitation { background: #1a1010; }
+    .inv-bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      filter: brightness(0.38) saturate(0.9);      /* ← lower/raise 0.38 to make it darker/lighter */
+      z-index: 0;
+    }
+    .inv-shade {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(26,10,14,0.35), rgba(26,10,14,0.65)),
+        linear-gradient(to bottom, rgba(122,46,69,0.18), rgba(10,4,6,0.45));
+    }
+    #invitation .corner-deco { z-index: 1; border-color: rgba(242,196,196,0.7); }
+    #invitation .inv-label { color: rgba(249,213,213,0.85); }
+    #invitation .inv-copy { color: rgba(255,245,240,0.95); text-shadow: 0 1px 14px rgba(0,0,0,0.6); }
+    #invitation .couple-names { color: #ffffff; text-shadow: 0 2px 30px rgba(0,0,0,0.65); }
+    #invitation .couple-names .amp { color: #F2C4C4; }
+    #invitation .inv-subtext { color: rgba(247,237,226,0.85); text-shadow: 0 1px 14px rgba(0,0,0,0.6); }
+    #invitation .ornament { color: #F2C4C4; }
+    #invitation .divider { background: var(--blush-mid); }
+
     /* ══ SCRATCH RIBBON — DATE REVEAL ══ */
     #savedate {
       min-height: 0;
@@ -524,6 +547,19 @@
       .cdot { width: 4px; height: 4px; }
     }
 
+    /* ── Details: true centring ── */
+    .details-day-col { display: flex; flex-direction: column; justify-content: center; }
+    /* wide letter-spacing leaves extra space after the last letter; pad the left to cancel it */
+    #details p[style*="letter-spacing"] { padding-left: 0.45em; }
+
+    @media (max-width: 640px) {
+      #details { padding: 5.5rem 2.25rem !important; }
+      .det-frame { inset: 1rem !important; }
+      .det-star { display: none; }
+      .det-info { grid-template-columns: 1fr !important; row-gap: 1.5rem; }
+      .det-info > div:nth-child(2) { display: none; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .intro-tap span, .scratch-shine { animation: none; }
     }
@@ -587,7 +623,7 @@
   </div>
 
   <div class="hero-content">
-    <p class="hero-eyebrow">A Love Story · Est. 26 January 2027</p>
+    <p class="hero-eyebrow">We joyfully invite you to witness a love story. 26 January 2027</p>
     <p class="hero-tagline">Two hearts,<br/><em>one forever</em></p>
     <div class="hero-names-pill">Gayatri &amp; Kenil</div>
   </div>
@@ -600,6 +636,9 @@
 
 <!-- ══ SECTION 2 — INVITATION ══ -->
 <section id="invitation">
+  <!-- ▼ ADD YOUR BACKGROUND PHOTO HERE (file name: invitation-bg.jpg) -->
+  <img class="inv-bg" src="invitation-bg.jpg" alt="" />
+  <div class="inv-shade"></div>
   <div class="corner-deco tl"></div>
   <div class="corner-deco tr"></div>
   <div class="corner-deco bl"></div>
@@ -611,13 +650,12 @@
     </div>
 
     <div class="reveal" style="margin-bottom:1.5rem;">
-      <p style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:#7A2E45;letter-spacing:0.06em;line-height:1.5;font-weight:400;">॥ श्री गणेशाय नमः ॥</p>
-      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.58rem;color:#C47878;letter-spacing:0.25em;margin-top:0.25rem;font-weight:300;text-transform:uppercase;">Shree Ganeshay Namah</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:#F9D5D5;letter-spacing:0.06em;line-height:1.5;font-weight:400;">॥ श्री गणेशाय नमः ॥</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.58rem;color:#E8A9A9;letter-spacing:0.25em;margin-top:0.25rem;font-weight:300;text-transform:uppercase;">Shree Ganeshay Namah</p>
     </div>
 
     <div style="width:40px;height:1px;background:#E8A9A9;margin:0 auto 1.8rem;opacity:0.6;"></div>
 
-    <p class="inv-label reveal">With overflowing joy and love</p>
     <p class="inv-copy reveal delay-1">Together with our families,<br/>we joyfully invite you to celebrate the forever of</p>
     <div class="couple-names reveal delay-2">
       Gayatri<span class="amp">&amp;</span>Kenil
@@ -625,7 +663,7 @@
     <div class="divider reveal delay-3"></div>
     <p class="inv-subtext reveal delay-3">Two souls, one story —<br/>and it begins now.</p>
     <span class="ornament reveal delay-4">Wedding Celebration</span>
-    <p class="inv-copy reveal delay-4" style="font-size:0.9rem;color:#8C7B7B;margin-top:0.5rem;">Your presence is our greatest gift.<br/>We cannot imagine this moment without you.</p>
+    <p class="inv-copy reveal delay-4" style="font-size:0.9rem;color:rgba(247,237,226,0.75);margin-top:0.5rem;">Your presence is our greatest gift.<br/>We cannot imagine this moment without you.</p>
   </div>
 </section>
 
@@ -660,14 +698,14 @@
 </section>
 
 <!-- ══ SECTION 3 — DETAILS ══ -->
-<section id="details" style="min-height:100vh;background:#200d16;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:5rem 2rem;">
+<section id="details" style="min-height:100vh;background:#200d16;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:6rem 4.5rem;">
 
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 100% 60% at 50% 110%,rgba(176,80,112,0.55) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 10% 0%,rgba(242,196,196,0.08) 0%,transparent 55%);"></div>
-  <div style="position:absolute;inset:2.5rem;border:1px solid rgba(196,120,120,0.2);pointer-events:none;"></div>
-  <span style="position:absolute;top:3.5rem;left:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
-  <span style="position:absolute;top:3.5rem;right:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
-  <span style="position:absolute;bottom:3.5rem;left:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
-  <span style="position:absolute;bottom:3.5rem;right:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
+  <div class="det-frame" style="position:absolute;inset:2.5rem;border:1px solid rgba(196,120,120,0.2);pointer-events:none;"></div>
+  <span class="det-star" style="position:absolute;top:3.5rem;left:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
+  <span class="det-star" style="position:absolute;top:3.5rem;right:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
+  <span class="det-star" style="position:absolute;bottom:3.5rem;left:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
+  <span class="det-star" style="position:absolute;bottom:3.5rem;right:3.5rem;color:rgba(232,169,169,0.5);font-size:0.8rem;">✦</span>
 
   <div style="position:relative;z-index:2;max-width:820px;width:100%;text-align:center;">
 
@@ -677,11 +715,11 @@
 
     <p class="reveal delay-2" style="font-size:0.58rem;letter-spacing:0.4em;text-transform:uppercase;color:rgba(232,169,169,0.5);font-weight:200;margin-bottom:3rem;">January 2027</p>
 
-    <div class="reveal delay-2 details-day-grid" style="display:grid;grid-template-columns:1fr 1px 1fr;gap:0;align-items:start;">
+    <div class="reveal delay-2 details-day-grid" style="display:grid;grid-template-columns:1fr 1px 1fr;gap:0;align-items:stretch;">
 
       <!-- DAY 1 -->
-      <div class="details-day-col" style="padding:0 2.5rem 0 0;text-align:left;">
-        <div style="display:inline-flex;align-items:center;gap:0.75rem;margin-bottom:2rem;">
+      <div class="details-day-col" style="padding:0 2.5rem 0 0;text-align:center;">
+        <div style="display:flex;align-items:center;justify-content:center;gap:0.75rem;margin-bottom:2rem;">
           <div style="width:52px;height:52px;border:1px solid rgba(232,169,169,0.6);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:#E8A9A9;font-weight:300;line-height:1;">25</div>
           <div>
             <p style="font-size:0.6rem;letter-spacing:0.45em;text-transform:uppercase;color:#E8A9A9;font-weight:300;">January 2027</p>
@@ -712,8 +750,8 @@
       <div style="background:rgba(196,120,120,0.18);align-self:stretch;"></div>
 
       <!-- DAY 2 -->
-      <div class="details-day-col" style="padding:0 0 0 2.5rem;text-align:left;">
-        <div style="display:inline-flex;align-items:center;gap:0.75rem;margin-bottom:2rem;">
+      <div class="details-day-col" style="padding:0 0 0 2.5rem;text-align:center;">
+        <div style="display:flex;align-items:center;justify-content:center;gap:0.75rem;margin-bottom:2rem;">
           <div style="width:52px;height:52px;border:1px solid rgba(232,169,169,0.6);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:#E8A9A9;font-weight:300;line-height:1;">26</div>
           <div>
             <p style="font-size:0.6rem;letter-spacing:0.45em;text-transform:uppercase;color:#E8A9A9;font-weight:300;">January 2027</p>
@@ -738,7 +776,7 @@
       </div>
     </div>
 
-    <div class="reveal delay-4" style="display:flex;align-items:center;justify-content:center;gap:2.5rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid rgba(196,120,120,0.15);flex-wrap:wrap;">
+    <div class="reveal delay-4 det-info" style="display:grid;grid-template-columns:1fr 1px 1fr;align-items:center;margin-top:3.5rem;padding-top:2rem;border-top:1px solid rgba(196,120,120,0.15);">
       <div style="text-align:center;">
         <p style="font-size:0.5rem;letter-spacing:0.45em;text-transform:uppercase;color:#C47878;font-weight:300;margin-bottom:0.35rem;">Venue</p>
         <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(247,237,226,0.8);font-weight:300;">Surendranagar, Gujarat</p>
