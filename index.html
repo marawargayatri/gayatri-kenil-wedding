@@ -1086,7 +1086,16 @@
   //  slide 1 shows 6s, then 4s each
   // ══════════════════════════════════════════
   const slides = document.querySelectorAll('.carousel-slide');
-  const cdots  = document.querySelectorAll('.cdot');
+  // build one dot per slide automatically, so the count can never go out of sync
+const dotsBox = document.getElementById('carouselDots');
+dotsBox.innerHTML = '';
+slides.forEach((_, i) => {
+  const b = document.createElement('button');
+  b.className = 'cdot' + (i === 0 ? ' active' : '');
+  b.dataset.slide = i;
+  dotsBox.appendChild(b);
+});
+const cdots = dotsBox.querySelectorAll('.cdot');
   let current = 0;
   let carouselTimer;
   let carouselStarted = false;
@@ -1099,20 +1108,18 @@
     cdots[current].classList.add('active');
   }
 
-  function startLoop() {
-    clearInterval(carouselTimer);
-    carouselTimer = setInterval(() => goToSlide(current + 1), 4000);
-  }
+ const SLIDE_SECONDS = 3;   // ← the only number to change: seconds each photo shows
 
-  function startCarousel() {
-    if (carouselStarted) return;
-    carouselStarted = true;
-    setTimeout(() => {
-      goToSlide(1);
-      startLoop();
-    }, 6000);
-  }
+function startLoop() {
+  clearInterval(carouselTimer);
+  carouselTimer = setInterval(() => goToSlide(current + 1), SLIDE_SECONDS * 1000);
+}
 
+function startCarousel() {
+  if (carouselStarted) return;
+  carouselStarted = true;
+  startLoop();             // starts the 3-second loop as soon as the intro ends
+}
   cdots.forEach(dot => {
     dot.addEventListener('click', () => {
       clearInterval(carouselTimer);
